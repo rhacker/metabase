@@ -100,45 +100,11 @@
                              ^Keyword          relative-unit
                              value])
 
-
-;;; # ---------------------------------------------------------------------- CLAUSE TYPES ------------------------------------------------------------
-
-;;; ## Aggregation
-(defrecord Aggregation [^Keyword aggregation-type
-                        ^Field field])
-
-;;; ## Filter
-;;; ### Top-Level Filter Clause
-(defrecord Filter [^Keyword compound-type ; :and :or :simple
-                   subclauses])
-
-;;; ### Filter Subclause Types
-(defrecord Filter:Inside [^Keyword filter-type ; :inside :not-null :is-null :between := :!= :< :> :<= :>=
-                          ^Float lat
-                          ^Float lon])
-
-(defrecord Filter:Between [^Keyword filter-type
-                           ^Field   field
-                           ^Value   min-val
-                           ^Value   max-val])
-
-(defrecord Filter:Field+Value [^Keyword filter-type
-                               ^Field   field
-                               ^Value   value])
-
-(defrecord Filter:Field [^Keyword filter-type
-                         ^Field   field])
-
-;;; ## Order-By
-
-(defrecord OrderByAggregateField [^Keyword source           ; Name used in original query. Always :aggregation for right now
-                                  ^Integer index            ; e.g. 0
-                                  ^Aggregation aggregation] ; The aggregation clause being referred to
+(defrecord OrderByAggregateField [^Keyword source ; Name used in original query. Always :aggregation for right now
+                                  ^Integer index  ; e.g. 0
+                                  aggregation]    ; The aggregation clause being referred to
   IField
   (qualified-name-components [_]
     ;; Return something like [nil "count"]
     ;; nil is used where Table name would normally go
     [nil (name (:aggregation-type aggregation))]))
-
-(defrecord OrderBySubclause [field                ; a Field or an OrderByAggregateField
-                             ^Keyword direction]) ; either :ascending or :descending
