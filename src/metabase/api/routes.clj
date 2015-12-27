@@ -27,7 +27,7 @@
   middleware/enforce-api-key)
 
 (def ^:private +auth
-  "Wrap API-ROUTES so they may only be accessed with proper authentiaction credentials."
+  "Wrap API-ROUTES so they may only be accessed with proper authentication credentials."
   middleware/enforce-authentication)
 
 (defroutes routes
